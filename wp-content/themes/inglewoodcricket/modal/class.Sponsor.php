@@ -16,8 +16,12 @@ class Sponsor extends ICCBase
     {
         return $this->getPostMeta('sponsor-url');
     }
+    public function getSponsorType()
+    {
+        return $this->getPostMeta('sponsor-type');
+    }
     public function output() {
-        $html = '<img src="' . $this->getLogo() . '" alt="' . $this->getTitle() . '" />';
+        $html = '<img src="' . $this->getLogo() . '" alt="' . $this->getTitle() . '" class="responsive-img" />';
 
         return $html;
     }

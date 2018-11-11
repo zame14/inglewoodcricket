@@ -54,7 +54,7 @@ h3 {
     color: #000000;
     margin-bottom: 15px;
 }
-.home h2 {
+.home h2, .sponsors-section h2 {
     font-size: 30px;
     line-height: 40px;
     color: #333333;
@@ -64,6 +64,10 @@ ul {
     list-style: none;
     padding: 0;
     margin: 0;
+}
+strong {
+    font-weight: 400;
+    color: #000000;
 }
 #header {
     position: relative;
@@ -561,6 +565,9 @@ ul {
     color: #090f25;
     text-transform: uppercase;
 }
+.story-panel {
+    margin-bottom: 30px;
+}
 .more-stories-wrapper h3 {
     text-align: center;
     padding-top: 10px;
@@ -650,7 +657,7 @@ ul {
     display: block;
     color: #000000;
     font-size: 12px;
-    line-height: 12px;
+    line-height: 14px;
     text-transform: none;
 }
 .sponsors-section {
@@ -660,11 +667,11 @@ ul {
     margin-top: 40px;
 }
 .slick-prev {
-    left: 3px;
+    left: -25px;
     z-index: 1;
 }
 .slick-next {
-    right: 3px;
+    right: -25px;
     z-index: 1;
 }
 .slick-prev::before, .slick-next::before {
@@ -686,7 +693,7 @@ ul {
 }
 .sponsors i {
     position: absolute;
-    color: #ffffff;
+    color: #000000;
     font-size: 30px;
     font-weight: 700;
     transform: translateY(-50%);
@@ -696,10 +703,16 @@ ul {
     cursor: pointer;
 }
 .sponsors i.fa-angle-left {
-    left: -20px;
+    left: 5px;
 }
 .sponsors i.fa-angle-right {
-    right: -20px;
+    right: 5px;
+}
+.grants-section {
+    overflow: hidden;
+}
+.grants-section i {
+    color: #ffffff;
 }
 .cart-icons-list {
     position: absolute;
@@ -715,11 +728,14 @@ ul {
     color: #ffffff;
     font-size: 20px;
 }
-.cart-icons-list li:first-child {
+.cart-icons-list li:first-child, .cart-icons-list li:nth-child(2) {
     margin-right: 20px;
 }
 .cart-icons-list .fa-shopping-cart {
     margin-right: 10px;
+}
+.cart-icons-list li.ph i {
+    margin-right: 5px;
 }
 .woocommerce ul.products li.product a {
     text-align: center;
@@ -787,6 +803,8 @@ ul {
 }
 .gallery-wrapper .slick-prev::before, .gallery-wrapper .slick-next::before {
     font-size: 30px;
+    color: #682b32;
+    opacity: 1;
 }
 .gallery-wrapper .slick-prev, .gallery-wrapper .slick-next {
     width: 30px;
@@ -795,8 +813,165 @@ ul {
 .fixtures iframe {
     width: 100% !important;
 }
+.team-photos-wrapper .wpb_single_image {
+    margin-bottom: 0 !important;
+}
+#gallery-page-wrapper .title {
+    margin-bottom: 30px;
+}
+.sponsors .slick-slide img {
+    max-width: 50%;
+    height: auto;
+    display: inline-block;
+    vertical-align: middle;
+}
+.registration-form-wrapper {
+    width: 100%;
+}
+.registration-form-wrapper label {
+    display: inline-block;
+    width: 25%;
+    font-weight: normal;
+    color: #000000;
+}
+.registration-form-wrapper .form-group {
+    width: 75%;
+    display: inline-block;
+}
+.registration-form-wrapper .interested_in .checkbox {
+    display: inline-block;
+}
+.registration-form-wrapper .interested_in .checkbox label {
+    width: auto;
+    margin-right: 10px;
+}
+.registration-form-wrapper .interested_in .checkbox label input[type=checkbox] {
+    margin-right: 5px;
+}
+.registration-form-wrapper .interested_in.form-group {
+    width: 100%;
+}
+.registration-form-wrapper .interested_in.form-control {
+    border: 0;
+    padding: 0;
+}
+.registrations-cta-wrapper {
+    margin-top: 50px;
+}
+.registrations-cta-wrapper a {
+    position: relative;
+    display: block;
+    background-color: #682b32;
+    color: #ffffff;
+}
+.registrations-cta-wrapper .image-wrapper {
+    display: inline-block;
+    width: 50%;
+}
+.registrations-cta-wrapper a:hover {
+    color: #ffffff;
+}
+.registrations-cta-wrapper .content-wrapper {
+    display: inline-block;
+    width: 50%;
+    position: relative;
+    text-align: center;
+}
+.registrations-cta-wrapper .content-wrapper .inner-wrapper {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+}
+.registrations-cta-wrapper .content-wrapper .inner-wrapper .heading {
+    font-size: 18px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    line-height: 26px;
+}
+.form-control {
+    font-size: 16px;
+    line-height: 22px;
+}
+.page-id-140 h2 {
+    margin-bottom: 5px;
+}
+.wsp-container ul {
+    margin-bottom: 30px;
+}
+.wsp-container h2 {
+    margin-bottom: 5px;
+}
+.sponsors-section {
+    overflow: hidden;
+}
+.sponsors-section h3 {
+    font-size: 20px;
+    line-height: 30px;
+    text-transform: uppercase;
+    color: #090f25;
+}
+.sponsors-section .inner-wrapper {
+    margin-bottom: 50px;
+}
+.nopadding {
+    padding-left: 0;
+    padding-right: 0;
+}
+.google-map iframe {
+    width: 100%;
+}
+.main-sponsor-wrapper p {
+    margin-bottom: 50px;
+}
+.grants-section {
+    text-align: center;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background-color: #090f25;
+}
+.grants-section h2 {
+    color: #ffffff;
+    font-size: 24px;
+    line-height: 34px;
+}
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {
+    border-color: rgba(255, 143, 18, 0.8) !important;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(255, 143, 18, 0.6) !important;
+    outline: 0 none;
+}
+.btn-primary.focus, .btn-primary:focus {
+    box-shadow: none;
+}
+.sitemap {
+    font-size: 12px;
+    color: #ffffff !important;
+    text-decoration: underline;
+}
+.sitemap:hover {
+    text-decoration: underline;
+}
 @media screen and (max-width: 1199px) {
     .container {
+        width: 100%;
+    }
+    iframe {
         width: 100%;
     }
 }
@@ -826,7 +1001,7 @@ ul {
         padding-right: 10px;
         height: 70px;
     }
-    .home h2 {
+    .home h2, .sponsors-section h2 {
         font-size: 26px;
         line-height: 26px;
     }
@@ -842,9 +1017,9 @@ ul {
     p {
         margin-bottom: 10px;
     }
-    .nopadding {
-        padding-left: 0;
-        padding-right: 0;
+    .form-control {
+        font-size: 14px;
+        line-height: 20px;
     }
     #header {
         height: 50px;
@@ -891,13 +1066,23 @@ ul {
     .table-striped tbody tr:first-child td {
         font-size: 14px;
     }
+    .grants-section h2 {
+        font-size: 20px;
+        line-height: 30px;
+    }
+    .slick-next {
+        right: -10px;
+    }
+    .slick-prev {
+        left: -10px;
+    }
 }
 @media (min-width: 768px) and (max-width: 991px) {
     h1 {
         font-size: 30px;
         line-height: 40px;
     }
-    .home h2 {
+    .home h2, .sponsors-section h2 {
         font-size: 24px;
         line-height: 34px;
     }
@@ -932,6 +1117,14 @@ ul {
     .more-stories-wrapper h3 {
         font-size: 16px;
     }
+    .registrations-cta-wrapper .content-wrapper .inner-wrapper .heading {
+        font-size: 16px;
+        margin-bottom: 10px;
+        line-height: 22px;
+    }
+    #cricket-wizard-cta p {
+        font-size: 18px;
+    }
 }
 @media screen and (max-width: 767px) {
     .player-panel-wrapper {
@@ -957,13 +1150,16 @@ ul {
     .inner-stats-menu li {
         margin-bottom: 10px;
     }
+    .cart-icons-list li.ph span {
+        display: none;
+    }
 }
 @media (min-width: 576px) and (max-width: 767px) {
     h1 {
         font-size: 30px;
         line-height: 40px;
     }
-    .home h2 {
+    .home h2, .sponsors-section h2 {
         font-size: 24px;
         line-height: 34px;
     }
@@ -1033,7 +1229,7 @@ ul {
     #mega-menu-wrap-primary #mega-menu-primary {
         top: 10px;
     }
-    .home h2 {
+    .home h2, .sponsors-section h2 {
         font-size: 20px;
         line-height: 30px;
     }
@@ -1093,9 +1289,81 @@ ul {
     #gallery-page-wrapper .title {
         margin-bottom: 30px;
     }
+    #cff {
+        height: 300px !important;
+    }
+    .story-panel {
+        margin-bottom: 30px;
+    }
+    .registrations-cta-wrapper .content-wrapper .inner-wrapper .heading {
+        font-size: 16px;
+        margin-bottom: 10px;
+        line-height: 22px;
+    }
+    .registration-form-wrapper label {
+        display: block;
+        width: 100%;
+    }
+    .registration-form-wrapper .form-group {
+        display: block;
+        width: 100%;
+    }
+    #cricket-wizard-cta a.cta {
+        display: none;
+    }
+    #cricket-wizard-cta p {
+        font-size: 13px;
+        top: -2px;
+    }
+    .cart-icons-list li:first-child, .cart-icons-list li:nth-child(2) {
+        margin-right: 10px;
+    }
+    .testimonials-wrapper ul li {
+        display: block;
+    }
+    .testimonials-wrapper ul li.image-wrapper {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .testimonials-wrapper ul li.content-wrapper {
+        width: 100%;
+        padding-left: 0;
+    }
+    .sponsors-section h3 {
+        font-size: 16px;
+        line-height: 22px;
+    }
+    .grants-section {
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+    .grants-section h2 {
+        color: #ffffff;
+        font-size: 16px;
+        line-height: 22px;
+    }
 }
 @media screen and (max-width: 399px) {
     .vc_toggle_title {
         font-size: 12px;
+    }
+    .registrations-cta-wrapper .image-wrapper, .registrations-cta-wrapper .content-wrapper {
+        display: block;
+        width: 100%;
+    }
+    .registrations-cta-wrapper .content-wrapper .inner-wrapper {
+        position: relative;
+        top: 10px;
+        transform: none;
+        -webkit-transform: none;
+    }
+    .registrations-cta-wrapper .content-wrapper {
+        height: 80px;
+    }
+    #cricket-wizard-cta p {
+        font-size: 10px;
+    }
+    .fixtures h4 {
+        font-size: 13px;
     }
 }

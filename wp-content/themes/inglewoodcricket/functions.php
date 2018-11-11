@@ -7,6 +7,7 @@ require_once('modal/class.Story.php');
 require_once('modal/class.Testimony.php');
 require_once('modal/class.Sponsor.php');
 require_once('modal/class.Gallery.php');
+require_once('modal/class.Record.php');
 require_once(STYLESHEETPATH . '/includes/wordpress-tweaks.php');
 loadVCTemplates();
 add_action( 'wp_enqueue_scripts', 'p_enqueue_styles');
@@ -62,7 +63,18 @@ function my_general_section()
             'season' // Should match Option ID
         )
     );
+    add_settings_field( // Option 1
+        'phone', // Option ID
+        'Karo Park phone number', // Label
+        'my_textbox_callback', // !important - This is where the args go!
+        'general', // Page it will be displayed (General Settings)
+        'my_settings_section', // Name of our section
+        array( // The $args
+            'phone' // Should match Option ID
+        )
+    );
     register_setting('general','season', 'esc_attr');
+    register_setting('general','phone', 'esc_attr');
 }
 function my_section_options_callback() { // Section Callback
     echo '';
@@ -111,6 +123,21 @@ function getStories() {
         $stories[] = $story;
     }
     return $stories;
+}
+function getRecords() {
+    $records = Array();
+    $posts_array = get_posts([
+        'post_type' => 'record',
+        'post_status' => 'publish',
+        'numberposts' => -1,
+        'orderby' => 'ID',
+        'order' => 'DESC',
+    ]);
+    foreach ($posts_array as $post) {
+        $record = new Record($post);
+        $records[] = $record;
+    }
+    return $records;
 }
 function getGalleryImages() {
     $images = Array();
@@ -165,14 +192,20 @@ function getTestimonials() {
     return $testimonials;
 }
 
-function getSponsors() {
+function getSponsors($type) {
     $sponsors = Array();
     $posts_array = get_posts([
         'post_type' => 'sponsor',
         'post_status' => 'publish',
         'numberposts' => -1,
         'orderby' => 'ID',
-        'order' => 'ASC'
+        'order' => 'ASC',
+        'meta_query' => [
+        [
+            'key' => 'wpcf-sponsor-type',
+            'value' => $type
+        ]
+    ]
     ]);
     foreach ($posts_array as $post) {
         $sponsor = new Sponsor($post);
@@ -411,21 +444,82 @@ add_shortcode('testimonials', 'testimonials_shortcode');
 
 function sponsors_shortcode() {
     $html = '
-    <h2>Thank you to our sponsors</h2>
-    <div class="sponsors">';
-    foreach(getSponsors() as $sponsor) {
-        if($sponsor->getLink() <> "") {
+    <div class="main-sponsor-wrapper inner-wrapper">
+        <p>If you are interested in becoming a sponsor, please call Sully on <a href="tel:0276699192">027 669 9192</a></p>
+        <h3>Main Sponsor</h3>';
+        foreach(getSponsors(1) as $sponsor) {
             $html .= '<div><a href="' . $sponsor->getLink() . '" target="_blank">' . $sponsor->output() . '</a></div>';
-        } else {
-            $html .= '<div>' . $sponsor->output . '</div>';
+        }
+    $html .= '</div>
+    <div class="junior-sponsor-wrapper inner-wrapper">
+        <h3>Junior Cricket sponsors</h3>
+        <div class="sponsors">';
+        foreach(getSponsors(2) as $sponsor) {
+            if($sponsor->getLink() <> "") {
+                $html .= '<div><a href="' . $sponsor->getLink() . '" target="_blank">' . $sponsor->output() . '</a></div>';
+            } else {
+                $html .= '<div>' . $sponsor->output() . '</div>';
+            }
+        }
+        $html .= '
+        </div>
+    </div>
+    <div class="minor-sponsor-wrapper inner-wrapper">
+        <h3>Minor sponsors</h3>
+        <div class="sponsors">';
+        foreach(getSponsors(4) as $sponsor) {
+            if($sponsor->getLink() <> "") {
+                $html .= '<div><a href="' . $sponsor->getLink() . '" target="_blank">' . $sponsor->output() . '</a></div>';
+            } else {
+                $html .= '<div>' . $sponsor->output() . '</div>';
         }
     }
-    $html .= '
+    $html .= '        
     </div>';
 
     return $html;
 }
 add_shortcode('sponsors', 'sponsors_shortcode');
+
+function grants_shortcode() {
+    $html = '
+    <div class="grants-wrapper inner-wrapper">
+        <div class="sponsors">';
+            foreach(getSponsors(3) as $sponsor) {
+            if($sponsor->getLink() <> "") {
+            $html .= '<div><a href="' . $sponsor->getLink() . '" target="_blank">' . $sponsor->output() . '</a></div>';
+            } else {
+            $html .= '<div>' . $sponsor->output() . '</div>';
+            }
+            }
+            $html .= '
+        </div>
+    </div>';
+
+    return $html;
+}
+
+add_shortcode('grants', 'grants_shortcode');
+
+add_shortcode('junior_registrations', 'registrations_shortcode');
+
+function registrations_shortcode() {
+    $html = '
+    <div class="registrations-cta-wrapper">
+        <a href="https://registrations.crichq.com/register/35707" target="_blank">
+            <div class="image-wrapper">
+                <img src="' . get_stylesheet_directory_uri() . '/images/junior-cricket-registrations.jpg" alt="Inglewood junior cricket registrations" class="responsive-img" />
+            </div><div class="content-wrapper">
+                <div class="inner-wrapper">
+                    <div class="heading">Junior Cricket Registrations</div>
+                    <p>Click here</p>
+                </div>
+            </div>
+        </a>
+    </div>';
+
+    return $html;
+}
 
 function getHighestScore($playerid, $season = "", $compid = "") {
     if($season <> "") {
@@ -513,7 +607,7 @@ function innerStatsMenu($thisPage) {
 function getImageID($image_url)
 {
     global $wpdb;
-    $sql = 'SELECT ID FROM icc_posts WHERE guid = "' . $image_url . '"';
+    $sql = 'SELECT ID FROM wp_posts WHERE guid = "' . $image_url . '"';
     $result = $wpdb->get_results($sql);
 
     return $result[0]->ID;
@@ -553,10 +647,21 @@ function moreStories($id) {
 function cartIcons() {
     $html = '
     <ul class="cart-icons-list">
-        <li><a href="' . get_page_link(313) . '"><span class="fa fa-user"></span></a></li><li><a class="fa fa-shopping-cart" href="'. WC()->cart->get_cart_url() . '"><a class="cart-contents" href="'. WC()->cart->get_cart_url() . '" title="">' . WC()->cart->get_cart_contents_count() . '</a></a></li>
+        <li class="ph"><a href="tel:' . formatPhoneNumber(get_option('phone')) . '"><i class="fa fa-phone"></i><span>' . get_option('phone') . '</span></a></li><li><a href="' . get_page_link(313) . '"><span class="fa fa-user"></span></a></li><li><a class="fa fa-shopping-cart" href="'. WC()->cart->get_cart_url() . '"><a class="cart-contents" href="'. WC()->cart->get_cart_url() . '" title="">' . WC()->cart->get_cart_contents_count() . '</a></a></li>
     </ul>';
 
     return $html;
+}
+function formatPhoneNumber($ph) {
+
+    $ph = str_replace('(', '', $ph);
+
+    $ph = str_replace(')', '', $ph);
+
+    $ph = str_replace(' ', '', $ph);
+
+    $ph = str_replace('+64', '0', $ph);
+    return $ph;
 }
 
 function remove_loop_button(){
@@ -772,8 +877,11 @@ if(isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == "show_player_bio") {
                 ' . $bio . '
             </div>
         </div>
-        <div class="col-md-4 vc_hidden-xs">
-            <img src="' . $player->getBioImage() . '" alt="' . $player->getTitle() . '" class="responsive-img" />
+        <div class="col-md-4 vc_hidden-xs">';
+            if($player->getBioImage() <> "") {
+                $html .= '<img src="' . $player->getBioImage() . '" alt="' . $player->getTitle() . '" class="responsive-img" />';
+            }
+        $html .= '
         </div>
         <div class="col-xl-12 players-career-stats">
             ' . getPlayerStats($player->getCricketWizardID()) . '

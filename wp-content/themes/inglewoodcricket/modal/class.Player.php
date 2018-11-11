@@ -54,7 +54,7 @@ class Player extends ICCBase
         ]);
         // loop through the returned posts and get the ones specific to this player
         foreach ($posts_array as $post) {
-            $sql = 'SELECT child_id FROM icc_toolset_associations WHERE parent_id = ' . $this->Post->ID . ' AND child_id = ' . $post->ID;
+            $sql = 'SELECT child_id FROM wp_toolset_associations WHERE parent_id = ' . $this->Post->ID . ' AND child_id = ' . $post->ID;
             $result = $wpdb->get_results($sql);
             //print_r($post->ID);
             $mvp = new MVP($result[0]->child_id);

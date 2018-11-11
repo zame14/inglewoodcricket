@@ -20,6 +20,7 @@ function playerProfiles() {
         $str = file_get_contents($url);
         $json = json_decode($str, true);
         $stat = $json['data']['matches'][0];
+        if($player->getCricketWizardID() == 3) $stat = ($stat + 17);
         $html .= '
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 player" id="player-' . $player->id() . '">
             <div class="player-inner-wrapper" data-id="' . $player->id() . '" data-colid="' . $i . '">
@@ -38,7 +39,7 @@ function playerProfiles() {
         <div class="player-inner-wrapper" data-id="9999" data-colid="' . ($i+1) . '">
             <div class="panel-title">David O\'Sullivan</div>
             <div class="image-wrapper">
-                <img src="' . get_stylesheet_directory_uri() . '/images/blank.jpg" alt="" class="responsive-img" />
+                <img src="' . get_stylesheet_directory_uri() . '/images/david_osullivan.jpg" alt="" class="responsive-img" />
             </div>
             <div class="playing-role">Coach</div>
             <img src="' . get_stylesheet_directory_uri() . '/images/loader.gif" alt="" class="loader" />
