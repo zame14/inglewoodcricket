@@ -17,14 +17,14 @@ class MVP extends ICCBase
     }
     public function getWickets()
     {
-        $wickets = ($this->getPostMeta('mvp-wickets')*15);
+        $wickets = (intval($this->getPostMeta('mvp-wickets'))*15);
         if($this->getPostMeta('mvp-wickets') > 4 && $this->getPostMeta('mvp-wickets') < 7) $wickets = ($wickets + 25);
         if($this->getPostMeta('mvp-wickets') >= 7) $wickets = ($wickets + 50);
         return $wickets;
     }
     public function getCatches()
     {
-        return ($this->getPostMeta('mvp-catches')*10);
+        return (intval($this->getPostMeta('mvp-catches'))*10);
     }
     public function getStumpings()
     {
@@ -33,6 +33,14 @@ class MVP extends ICCBase
     public function getRunOuts()
     {
         return ($this->getPostMeta('mvp-run-outs')*12);
+    }
+    public function get50RunPartnership()
+    {
+        return ($this->getPostMeta('mvp-50')*15);
+    }
+    public function get100RunPartnership()
+    {
+        return ($this->getPostMeta('mvp-100')*30);
     }
     public function getSeason()
     {

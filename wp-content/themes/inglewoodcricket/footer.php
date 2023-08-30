@@ -42,6 +42,11 @@
         </div>
     </div>
 </section>
+</div>
 <?php wp_footer(); ?>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+<script src="<?=get_stylesheet_directory_uri()?>/js/noframework.waypoints.min.js" type="text/javascript"></script>
+<script src="<?=get_stylesheet_directory_uri()?>/js/theme.js" type="text/javascript"></script>
+<script src="<?=get_stylesheet_directory_uri()?>/includes/slick-carousel/slick/slick.js" type="text/javascript"></script>
 </body>
 </html>

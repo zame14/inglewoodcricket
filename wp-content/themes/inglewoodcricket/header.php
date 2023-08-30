@@ -8,7 +8,11 @@ $container = get_theme_mod( 'understrap_container_type' );
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="profile" href="http://gmpg.org/xfn/11">
     <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Open+Sans:wght@400;700&family=Lato:wght@400;700&family=Roboto:wght@300;400&family=Sigmar+One&family=Princess+Sofia&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <?php wp_head(); ?>
+
 </head>
 
 <body <?php body_class(); ?>>

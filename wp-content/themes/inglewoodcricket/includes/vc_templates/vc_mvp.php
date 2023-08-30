@@ -11,10 +11,11 @@ add_shortcode( 'mvp', 'mvpPoints' );
 
 function mvpPoints() {
     $season = get_option('season');
+    $html = '';
     // put mvp points into an array so we can sort the array
     $mvp_points = array();
     foreach(getPlayers() as $player) {
-        $mvp_points[] = array("full_name"=>$player->getTitle(), "points"=>$player->getMVPPoints($season));
+        $mvp_points[] = array("full_name"=>$player->getTitle(), "points"=>$player->getMVPPoints($season), "sponsor"=>$player->getSponsorID());
     }
     $points = array_column($mvp_points, 'points');
     $full_name = array_column($mvp_points, 'full_name');
@@ -33,9 +34,16 @@ function mvpPoints() {
                     </thead>
                     <tbody>';
                     foreach($mvp_points as $player) {
+                        if($player['sponsor'] <> "")
+                        {
+                            $sponsor = new Sponsor($player['sponsor']);
+                            $sponsor_name = $sponsor->getTitle();
+                        } else {
+                            $sponsor_name = '<a href="' . get_page_link(3422) . '" target="_blank">sponsor me</a>';
+                        }
                         $html .= '
                         <tr>
-                            <td>' . $player['full_name'] . '</td>
+                            <td>' . $player['full_name'] . ' - (' . $sponsor_name . ')</td>
                             <td>' . $player['points'] . '</td>
                         </tr>';
                     }
@@ -45,6 +53,7 @@ function mvpPoints() {
             </div>
         </div>
     </div>';
+
 
     return $html;
 }

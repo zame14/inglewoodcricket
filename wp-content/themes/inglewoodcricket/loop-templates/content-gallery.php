@@ -21,28 +21,6 @@
                         <?php the_content(); ?>
                     </div>
                 </div>
-                <div class="row">
-                    <?php
-                    foreach(getGalleryImages() as $gallery) {
-                        echo '
-                        <div class="col-xs-12 col-sm-6">
-                            <div class="gallery-wrapper">';
-                            foreach ($gallery->getGalleryImages() as $gallery_image) {
-                                $imgid = getImageID($gallery_image);
-                                $image = wp_get_attachment_image_src($imgid, 'gallery');
-                                echo '<div><img src="' . $image[0] . '" alt="" class="responsive-img" /></div>';
-                            }
-                            echo '
-                            </div>
-                            <div class="title blue">' . $gallery->getTitle() . '</div>
-                        </div>';
-
-                    }
-                    ?>
-                    <div class="col-xl-12">
-
-                    </div>
-                </div>
             </div>
         </div>
 

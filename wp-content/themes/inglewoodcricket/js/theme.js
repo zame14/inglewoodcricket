@@ -71,7 +71,7 @@ jQuery(function($) {
         arrows: true,
         adaptiveHeight: true
     });
-    if($('.player-inner-wrapper').length) {
+    if($('.player-inner-wrapper12').length) {
         $('.player-inner-wrapper').click(function() {
             $(".loader",this).show();
             $('.player-inner-wrapper').removeClass('showMe');
@@ -313,6 +313,7 @@ jQuery(function($) {
     if($(".stats-home-wrapper").length) {
         $.ajax({
             url: "?ajax=get_stats_for_home_page",
+            cache: false,
             success: function (response) {
                 $(".current-prem-stats .stats-loader").hide();
                 $(".current-prem-stats").html(response);
@@ -320,9 +321,18 @@ jQuery(function($) {
         });
         $.ajax({
             url: "?ajax=get_prem_records",
+            cache: false,
             success: function (response) {
                 $(".prem-records .stats-loader").hide();
                 $(".prem-records").html(response);
+            }
+        });
+        $.ajax({
+            url: "?ajax=get_leaderboard",
+            cache: false,
+            success: function (response) {
+                $(".mvp-leaderboard .stats-loader").hide();
+                $(".mvp-leaderboard").html(response);
             }
         });
     }

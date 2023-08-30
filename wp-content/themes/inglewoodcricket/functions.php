@@ -12,20 +12,16 @@ require_once(STYLESHEETPATH . '/includes/wordpress-tweaks.php');
 loadVCTemplates();
 add_action( 'wp_enqueue_scripts', 'p_enqueue_styles');
 function p_enqueue_styles() {
-    wp_enqueue_style( 'bootstrap-css', get_stylesheet_directory_uri() . '/css/bootstrap.min.css?' . filemtime(get_stylesheet_directory() . '/css/bootstrap.min.css'));
-    wp_enqueue_style( 'font-awesome', get_stylesheet_directory_uri() . '/css/font-awesome.min.css?' . filemtime(get_stylesheet_directory() . '/css/font-awesome.css'));
-    wp_enqueue_style( 'google_font_open_sans', 'https://fonts.googleapis.com/css?family=Open+Sans:400,600');
-    wp_enqueue_style( 'lato', 'https://fonts.googleapis.com/css?family=Lato:400,700');
-    wp_enqueue_style( 'roboto', 'https://fonts.googleapis.com/css?family=Roboto:300,400');
-    wp_enqueue_style( 'sigmar', 'https://fonts.googleapis.com/css?family=Sigmar+One');
-    wp_enqueue_style( 'sofia', 'https://fonts.googleapis.com/css?family=Princess+Sofia');
+    //wp_enqueue_style( 'bootstrap-css', get_stylesheet_directory_uri() . '/css/bootstrap.min.css');
+    wp_enqueue_style( 'font-awesome', get_stylesheet_directory_uri() . '/css/font-awesome.min.css');
+    //wp_enqueue_style( 'google_fonts', 'https://fonts.googleapis.com/css?family=Open+Sans:400,600|Lato:400,700|Roboto:300,400|Sigmar+One|Princess+Sofia');
     wp_enqueue_style( 'slick', get_stylesheet_directory_uri() . '/includes/slick-carousel/slick/slick.css');
     wp_enqueue_style( 'slick-theme', get_stylesheet_directory_uri() . '/includes/slick-carousel/slick/slick-theme.css');
-    wp_enqueue_style( 'understrap-theme', get_stylesheet_directory_uri() . '/style.css?' . filemtime(get_stylesheet_directory() . '/style.css'));
-    wp_enqueue_script('bootstrap-js', get_stylesheet_directory_uri() . '/js/bootstrap.min.js?' . filemtime(get_stylesheet_directory() . '/js/bootstrap.min.js'), array('jquery'));
-    wp_enqueue_script( 'waypoint', get_stylesheet_directory_uri() . '/js/noframework.waypoints.min.js');
-    wp_enqueue_script('understap-theme', get_stylesheet_directory_uri() . '/js/theme.js?' . filemtime(get_stylesheet_directory() . '/js/theme.js'), array('jquery'));
-    wp_enqueue_script( 'slick', get_stylesheet_directory_uri() . '/includes/slick-carousel/slick/slick.js');
+    wp_enqueue_style( 'understrap-theme', get_stylesheet_directory_uri() . '/style.css');
+    //wp_enqueue_script('bootstrap-js', get_stylesheet_directory_uri() . '/js/bootstrap.min.js', array('jquery'));
+    //wp_enqueue_script( 'waypoint', get_stylesheet_directory_uri() . '/js/noframework.waypoints.min.js');
+    //wp_enqueue_script('understap-theme', get_stylesheet_directory_uri() . '/js/theme.js', array('jquery'));
+   //wp_enqueue_script( 'slick', get_stylesheet_directory_uri() . '/includes/slick-carousel/slick/slick.js');
 }
 function understrap_remove_scripts() {
     wp_dequeue_style( 'understrap-styles' );
@@ -38,7 +34,7 @@ function understrap_remove_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'understrap_remove_scripts', 20 );
 
-add_filter( 'vc_load_default_templates', 'p_vc_load_default_templates' ); // Hook in
+//add_filter( 'vc_load_default_templates', 'p_vc_load_default_templates' ); // Hook in
 function p_vc_load_default_template( $data ) {
     return array();
 }
@@ -201,11 +197,11 @@ function getSponsors($type) {
         'orderby' => 'ID',
         'order' => 'ASC',
         'meta_query' => [
-        [
-            'key' => 'wpcf-sponsor-type',
-            'value' => $type
+            [
+                'key' => 'wpcf-sponsor-type',
+                'value' => $type
+            ]
         ]
-    ]
     ]);
     foreach ($posts_array as $post) {
         $sponsor = new Sponsor($post);
@@ -235,7 +231,18 @@ function getMVP($season) {
     }
     return $mvp_points;
 }
+function mvpLeaderboard_shortcode()
+{
+    $season = get_option('season');
+    $html = '
+    <h2>' . $season . ' MVP Leaderboard</h2>
+    <div class="stats-home-wrapper mvp-leaderboard row justify-content-center">
+        <div class="col-12"><img src="' . get_stylesheet_directory_uri() . '/images/loader.gif" alt="" class="stats-loader" /></div>    
+    </div>';
 
+    return $html;
+}
+add_shortcode('mvp_leaderboard', 'mvpLeaderboard_shortcode');
 function getRecord($record) {
     $html = '';
     $player = '';
@@ -400,15 +407,15 @@ function breadcrumb_shortcode($atts) {
     <div class="breadcrumb">
         <ul>
             <li><a href="' . get_page_link(4) . '">Home</a></li>';
-            if($atts['parent'] <> "") {
-                if($atts['parent'] == "story") {
-                    $html .= '<li><a href="javascript:;">Media</a></li>';
-                    $html .= '<li><a href="' . get_page_link(258) . '">Players Voice</a></li>';
-                } else {
-                    $html .= '<li><a href="javascript:;">' . $atts['parent'] . '</a></li>';
-                }
-            }
-            $html .= '
+    if($atts['parent'] <> "") {
+        if($atts['parent'] == "story") {
+            $html .= '<li><a href="javascript:;">Media</a></li>';
+            $html .= '<li><a href="' . get_page_link(258) . '">Players Voice</a></li>';
+        } else {
+            $html .= '<li><a href="javascript:;">' . $atts['parent'] . '</a></li>';
+        }
+    }
+    $html .= '
             <li>' . $this_page . '</li>
         </ul>
     </div>';
@@ -419,7 +426,7 @@ add_shortcode('breadcrumb', 'breadcrumb_shortcode');
 
 function testimonials_shortcode() {
     $testimonials = getTestimonials();
-    rand($testimonials);
+    shuffle($testimonials);
     $html = '
     <div class="testimonials-wrapper">';
     foreach($testimonials as $t) {
@@ -443,38 +450,45 @@ function testimonials_shortcode() {
 add_shortcode('testimonials', 'testimonials_shortcode');
 
 function sponsors_shortcode() {
+    $silver_sponsors = getSponsors(5);
+    shuffle($silver_sponsors);
+    $bronze_sponsors = getSponsors(6);
+    shuffle($bronze_sponsors);
     $html = '
     <div class="main-sponsor-wrapper inner-wrapper">
-        <p>If you are interested in becoming a sponsor, please call Sully on <a href="tel:0276699192">027 669 9192</a></p>
+        <p>If you are interested in becoming a sponsor, click <a href="' . get_page_link(3422) . '">here</a></p>
         <h3>Main Sponsor</h3>';
-        foreach(getSponsors(1) as $sponsor) {
-            $html .= '<div><a href="' . $sponsor->getLink() . '" target="_blank">' . $sponsor->output() . '</a></div>';
-        }
+    foreach(getSponsors(1) as $sponsor) {
+        $html .= '<div><a href="' . $sponsor->getLink() . '" target="_blank">' . $sponsor->output() . '</a></div>';
+    }
     $html .= '</div>
-    <div class="junior-sponsor-wrapper inner-wrapper">
-        <h3>Junior Cricket sponsors</h3>
+    <div class="silver-sponsor-wrapper inner-wrapper">
+        <h3>Silver sponsors</h3>
         <div class="sponsors">';
-        foreach(getSponsors(2) as $sponsor) {
-            if($sponsor->getLink() <> "") {
-                $html .= '<div><a href="' . $sponsor->getLink() . '" target="_blank">' . $sponsor->output() . '</a></div>';
-            } else {
-                $html .= '<div>' . $sponsor->output() . '</div>';
-            }
-        }
-        $html .= '
-        </div>
-    </div>
-    <div class="minor-sponsor-wrapper inner-wrapper">
-        <h3>Minor sponsors</h3>
-        <div class="sponsors">';
-        foreach(getSponsors(4) as $sponsor) {
-            if($sponsor->getLink() <> "") {
-                $html .= '<div><a href="' . $sponsor->getLink() . '" target="_blank">' . $sponsor->output() . '</a></div>';
-            } else {
-                $html .= '<div>' . $sponsor->output() . '</div>';
+    foreach($silver_sponsors as $sponsor) {
+        if($sponsor->getLink() <> "") {
+            $html .= '<div><a href="' . $sponsor->getLink() . '" target="_blank">' . $sponsor->output() . '</a></div>';
+        } else {
+            $html .= '<div>' . $sponsor->output() . '</div>';
         }
     }
     $html .= '        
+        </div>
+    </div>
+    <div class="bronze-sponsor-wrapper inner-wrapper">
+        <h3>2021/22 player sponsors</h3>
+        <a href="' . get_page_link(3422) . '">Become a sponsor</a>
+        <div class="sponsors">';
+    foreach($bronze_sponsors as $sponsor) {
+        if($sponsor->getLink() <> "") {
+            $html .= '<div><a href="' . $sponsor->getLink() . '" target="_blank">' . $sponsor->output() . '</a></div>';
+        } else {
+            $html .= '<div>' . $sponsor->output() . '</div>';
+        }
+
+    }
+    $html .= '        
+        </div>
     </div>';
 
     return $html;
@@ -485,14 +499,14 @@ function grants_shortcode() {
     $html = '
     <div class="grants-wrapper inner-wrapper">
         <div class="sponsors">';
-            foreach(getSponsors(3) as $sponsor) {
-            if($sponsor->getLink() <> "") {
+    foreach(getSponsors(3) as $sponsor) {
+        if($sponsor->getLink() <> "") {
             $html .= '<div><a href="' . $sponsor->getLink() . '" target="_blank">' . $sponsor->output() . '</a></div>';
-            } else {
+        } else {
             $html .= '<div>' . $sponsor->output() . '</div>';
-            }
-            }
-            $html .= '
+        }
+    }
+    $html .= '
         </div>
     </div>';
 
@@ -507,14 +521,13 @@ function registrations_shortcode() {
     $html = '
     <div class="registrations-cta-wrapper">
         <a href="https://registrations.crichq.com/register/35707" target="_blank">
-            <div class="image-wrapper">
-                <img src="' . get_stylesheet_directory_uri() . '/images/junior-cricket-registrations.jpg" alt="Inglewood junior cricket registrations" class="responsive-img" />
-            </div><div class="content-wrapper">
-                <div class="inner-wrapper">
-                    <div class="heading">Junior Cricket Registrations</div>
-                    <p>Click here</p>
-                </div>
+        <div class="content-wrapper">
+            <div class="inner-wrapper">
+                <div class="heading">Cricket Registrations</div>
+                <p>Junior Cricket</p>
+                <p>Click here</p>
             </div>
+        </div>
         </a>
     </div>';
 
@@ -627,17 +640,17 @@ function moreStories($id) {
     <div class="more-stories-wrapper">
         <h3>More Stories</h3>
         <ul>';
-        foreach (getStories() as $story) {
-            if($story->id() <> $id) {
-                $innerHtml .= '<li><a href="' . $story->link() . '">' . $story->getTitle() . '<span> - By ' . $story->getAuthor() . '</span></a>';
-            }
+    foreach (getStories() as $story) {
+        if($story->id() <> $id) {
+            $innerHtml .= '<li><a href="' . $story->link() . '">' . $story->getTitle() . '<span> - By ' . $story->getAuthor() . '</span></a>';
         }
-        if($innerHtml == "") {
-            $html .= '<li>More player stories coming soon.</li>';
-        } else {
-            $html .= $innerHtml;
-        }
-        $html .= '
+    }
+    if($innerHtml == "") {
+        $html .= '<li>More player stories coming soon.</li>';
+    } else {
+        $html .= $innerHtml;
+    }
+    $html .= '
         </ul>
     </div>';
 
@@ -647,7 +660,7 @@ function moreStories($id) {
 function cartIcons() {
     $html = '
     <ul class="cart-icons-list">
-        <li class="ph"><a href="tel:' . formatPhoneNumber(get_option('phone')) . '"><i class="fa fa-phone"></i><span>' . get_option('phone') . '</span></a></li><li><a href="' . get_page_link(313) . '"><span class="fa fa-user"></span></a></li><li><a class="fa fa-shopping-cart" href="'. WC()->cart->get_cart_url() . '"><a class="cart-contents" href="'. WC()->cart->get_cart_url() . '" title="">' . WC()->cart->get_cart_contents_count() . '</a></a></li>
+        <li class="ph"><a href="tel:' . formatPhoneNumber(get_option('phone')) . '"><i class="fa fa-phone"></i><span>' . get_option('phone') . '</span></a></li>
     </ul>';
 
     return $html;
@@ -712,23 +725,23 @@ function getPlayerStats($playerid) {
             </tr>
             </thead>
             <tbody>';
-            $bat_url = 'http://www.thecricketwizard.co.nz/api/api.php?functionName=getAllStats&playerid=' . $playerid . '&season&comp&opponent&runs&wickets&groupby=p.playerid,m.compid&orderby=m.compid_asc&limit';
-            $str = file_get_contents($bat_url);
-            $json = json_decode($str, true);
-            for($i = 0; $i < sizeof($json['data']['fullname']); $i++) {
-                $notouts = $json['data']['notouts'][$i];
-                $ton = $json['data']['ton'][$i];
-                $fifty = $json['data']['fifty'][$i];
-                $fours = $json['data']['fours'][$i];
-                $sixes = $json['data']['sixes'][$i];
-                $hs = getHighestScore($json['data']['cricketwizardid'][$i], "", $json['data']['compid'][$i]);
-                //if($json['data']['dismissal'][$i] == 7) $hs .= '*';
-                if($json['data']['innings'][$i] == $json['data']['notouts'][$i]) {
-                    $ave = "-";
-                } else {
-                    $ave = round($json['data']['bataverage'][$i],2);
-                }
-                $html .= '
+    $bat_url = 'http://www.thecricketwizard.co.nz/api/api.php?functionName=getAllStats&playerid=' . $playerid . '&season&comp&opponent&runs&wickets&groupby=p.playerid,m.compid&orderby=m.compid_asc&limit';
+    $str = file_get_contents($bat_url);
+    $json = json_decode($str, true);
+    for($i = 0; $i < sizeof($json['data']['fullname']); $i++) {
+        $notouts = $json['data']['notouts'][$i];
+        $ton = $json['data']['ton'][$i];
+        $fifty = $json['data']['fifty'][$i];
+        $fours = $json['data']['fours'][$i];
+        $sixes = $json['data']['sixes'][$i];
+        $hs = getHighestScore($json['data']['cricketwizardid'][$i], "", $json['data']['compid'][$i]);
+        //if($json['data']['dismissal'][$i] == 7) $hs .= '*';
+        if($json['data']['innings'][$i] == $json['data']['notouts'][$i]) {
+            $ave = "-";
+        } else {
+            $ave = round($json['data']['bataverage'][$i],2);
+        }
+        $html .= '
                 <tr>
                     <td>' . $json['data']['competition'][$i] . '</td>
                     <td>' . $json['data']['matches'][$i] . '</td>
@@ -744,23 +757,23 @@ function getPlayerStats($playerid) {
                     <td>' . $json['data']['catches'][$i] . '</td>
                     <td>' . $json['data']['stumpings'][$i] . '</td>
                 </tr>';
-            }
-            $bat_url = 'http://www.thecricketwizard.co.nz/api/api.php?functionName=getAllStats&playerid=' . $playerid . '&season&comp&opponent&runs&wickets&groupby=p.playerid&orderby&limit';
-            $str = file_get_contents($bat_url);
-            $json = json_decode($str, true);
-            $notouts = $json['data']['notouts'][0];
-            $ton = $json['data']['ton'][0];
-            $fifty = $json['data']['fifty'][0];
-            $fours = $json['data']['fours'][0];
-            $sixes = $json['data']['sixes'][0];
-            $hs = getHighestScore($json['data']['cricketwizardid'][0]);
-            //if($json['data']['dismissal'][$i] == 7) $hs .= '*';
-            if($json['data']['innings'][0] == $json['data']['notouts'][0]) {
-                $ave = "-";
-            } else {
-                $ave = round($json['data']['bataverage'][0],2);
-            }
-            $html .= '
+    }
+    $bat_url = 'http://www.thecricketwizard.co.nz/api/api.php?functionName=getAllStats&playerid=' . $playerid . '&season&comp&opponent&runs&wickets&groupby=p.playerid&orderby&limit';
+    $str = file_get_contents($bat_url);
+    $json = json_decode($str, true);
+    $notouts = $json['data']['notouts'][0];
+    $ton = $json['data']['ton'][0];
+    $fifty = $json['data']['fifty'][0];
+    $fours = $json['data']['fours'][0];
+    $sixes = $json['data']['sixes'][0];
+    $hs = getHighestScore($json['data']['cricketwizardid'][0]);
+    //if($json['data']['dismissal'][$i] == 7) $hs .= '*';
+    if($json['data']['innings'][0] == $json['data']['notouts'][0]) {
+        $ave = "-";
+    } else {
+        $ave = round($json['data']['bataverage'][0],2);
+    }
+    $html .= '
             <tr class="bold-row">
                 <td>&nbsp;</td>
                 <td>' . $json['data']['matches'][0] . '</td>
@@ -800,19 +813,19 @@ function getPlayerStats($playerid) {
             </tr>
             </thead>
             <tbody>';
-            $bowl_url = 'http://www.thecricketwizard.co.nz/api/api.php?functionName=getAllStats&playerid=' . $playerid . '&season&comp&opponent&runs&wickets&groupby=p.playerid,m.compid&orderby=m.compid_asc&limit';
-            $str = file_get_contents($bowl_url);
-            $json = json_decode($str, true);
-            for($i = 0; $i < sizeof($json['data']['fullname']); $i++) {
-                $bb = getBestBowled($json['data']['cricketwizardid'][$i], "", $json['data']['compid'][$i]);
-                if($json['data']['deliveries'][$i] > 0 && $json['data']['wickets'][$i] == 0) {
-                    $bowlave = "-";
-                    $sr = "-";
-                } else {
-                    $bowlave = round($json['data']['bowlaverage'][$i],2);
-                    $sr = round($json['data']['strikerate'][$i],2);
-                }
-                $html .= '
+    $bowl_url = 'http://www.thecricketwizard.co.nz/api/api.php?functionName=getAllStats&playerid=' . $playerid . '&season&comp&opponent&runs&wickets&groupby=p.playerid,m.compid&orderby=m.compid_asc&limit';
+    $str = file_get_contents($bowl_url);
+    $json = json_decode($str, true);
+    for($i = 0; $i < sizeof($json['data']['fullname']); $i++) {
+        $bb = getBestBowled($json['data']['cricketwizardid'][$i], "", $json['data']['compid'][$i]);
+        if($json['data']['deliveries'][$i] > 0 && $json['data']['wickets'][$i] == 0) {
+            $bowlave = "-";
+            $sr = "-";
+        } else {
+            $bowlave = round($json['data']['bowlaverage'][$i],2);
+            $sr = round($json['data']['strikerate'][$i],2);
+        }
+        $html .= '
                 <tr>
                     <td>' . $json['data']['competition'][$i] . '</td>
                     <td>' . $json['data']['matches'][$i] . '</td>
@@ -827,19 +840,19 @@ function getPlayerStats($playerid) {
                     <td>' . $json['data']['fivewickets'][$i] . '</td>
                     <td>' . $json['data']['tenwickets'][$i] . '</td>
                 </tr>';
-            }
-            $bowl_url = 'http://www.thecricketwizard.co.nz/api/api.php?functionName=getAllStats&playerid=' . $playerid . '&season&comp&opponent&runs&wickets&groupby=p.playerid&orderby&limit';
-            $str = file_get_contents($bowl_url);
-            $json = json_decode($str, true);
-            $bb = getBestBowled($json['data']['cricketwizardid'][0]);
-            if($json['data']['deliveries'][0] > 0 && $json['data']['wickets'][0] == 0) {
-                $bowlave = "-";
-                $sr = "-";
-            } else {
-                $bowlave = round($json['data']['bowlaverage'][0],2);
-                $sr = round($json['data']['strikerate'][0],2);
-            }
-            $html .= '
+    }
+    $bowl_url = 'http://www.thecricketwizard.co.nz/api/api.php?functionName=getAllStats&playerid=' . $playerid . '&season&comp&opponent&runs&wickets&groupby=p.playerid&orderby&limit';
+    $str = file_get_contents($bowl_url);
+    $json = json_decode($str, true);
+    $bb = getBestBowled($json['data']['cricketwizardid'][0]);
+    if($json['data']['deliveries'][0] > 0 && $json['data']['wickets'][0] == 0) {
+        $bowlave = "-";
+        $sr = "-";
+    } else {
+        $bowlave = round($json['data']['bowlaverage'][0],2);
+        $sr = round($json['data']['strikerate'][0],2);
+    }
+    $html .= '
             <tr class="bold-row">
                 <td>&nbsp;</td>
                 <td>' . $json['data']['matches'][0] . '</td>
@@ -878,10 +891,10 @@ if(isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == "show_player_bio") {
             </div>
         </div>
         <div class="col-md-4 vc_hidden-xs">';
-            if($player->getBioImage() <> "") {
-                $html .= '<img src="' . $player->getBioImage() . '" alt="' . $player->getTitle() . '" class="responsive-img" />';
-            }
-        $html .= '
+    if($player->getBioImage() <> "") {
+        $html .= '<img src="' . $player->getBioImage() . '" alt="' . $player->getTitle() . '" class="responsive-img" />';
+    }
+    $html .= '
         </div>
         <div class="col-xl-12 players-career-stats">
             ' . getPlayerStats($player->getCricketWizardID()) . '
@@ -900,7 +913,6 @@ if(isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == "get_stats_for_home_page") {
     $batsmenid = $json['data']['cricketwizardid'][0];
     $runs = $json['data']['runs'][0];
     $batsmen = getPlayer($batsmenid);
-
     $bowling_stats = 'http://www.thecricketwizard.co.nz/api/api.php?functionName=getAllStats&playerid&season=' . $season . '&comp&opponent&runs&wickets&groupby=p.playerid&orderby=sum(wickets)_desc&limit=1';
     $str = file_get_contents($bowling_stats);
     $json = json_decode($str, true);
@@ -908,6 +920,8 @@ if(isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == "get_stats_for_home_page") {
     $bowlerid = $json['data']['cricketwizardid'][0];
     $wickets = $json['data']['wickets'][0];
     $bowler = getPlayer($bowlerid);
+    // $bowl_sponsor_id = $bowler[0]->getSponsorID();
+    //$bowl_sponsor = new Sponsor($bowl_sponsor_id);
 
     $catching_stats = 'http://www.thecricketwizard.co.nz/api/api.php?functionName=getAllStats&playerid&season=' . $season . '&comp&opponent&runs&wickets&groupby=p.playerid&orderby=sum(catches)_desc&limit=1';
     $str = file_get_contents($catching_stats);
@@ -916,11 +930,15 @@ if(isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == "get_stats_for_home_page") {
     $catcherid = $json['data']['cricketwizardid'][0];
     $catches = $json['data']['catches'][0];
     $catcher = getPlayer($catcherid);
+    //$catch_sponsor_id = $catcher[0]->getSponsorID();
+    //$catcher_sponsor = new Sponsor($catch_sponsor_id);
+
     $html = '
         <div class="col-xs-12 col-sm-6 col-md-4 col-xl-4 player-panel-wrapper">
             <div class="panel-title">Top Run Scorer</div>
             <div class="image-wrapper">
                 <img src="' . $batsmen[0]->getProfileImage() . '" alt="' . $batsmen[0]->getTitle() . '" class="responsive-img" />
+                <div class="sponsor-wrapper"></div>
             </div>
             <div class="name">' . $batsmen[0]->getTitle() . '</div>
             <div class="stat"><span>' . $runs . '</span></div>
@@ -929,6 +947,7 @@ if(isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == "get_stats_for_home_page") {
             <div class="panel-title">Top Wicket Taker</div>
             <div class="image-wrapper">
                 <img src="' . $bowler[0]->getProfileImage() . '" alt="' . $bowler[0]->getTitle() . '" class="responsive-img" />
+                <div class="sponsor-wrapper"></div>
             </div>
             <div class="name">' . $bowler[0]->getTitle() . '</div>
             <div class="stat"><span>' . $wickets . '</span></div>
@@ -937,10 +956,49 @@ if(isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == "get_stats_for_home_page") {
             <div class="panel-title">Top Catcher</div>
             <div class="image-wrapper">
                 <img src="' . $catcher[0]->getProfileImage() . '" alt="' . $catcher[0]->getTitle() . '" class="responsive-img" />
+                <div class="sponsor-wrapper"></div>
             </div>
             <div class="name">' . $catcher[0]->getTitle() . '</div>
             <div class="stat"><span>' . $catches . '</span></div>
         </div>';
+    echo $html;
+    exit;
+}
+if(isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == "get_leaderboard") {
+    $html = '';
+    $i = 1;
+    $position = '';
+    $season = get_option('season');
+    // put mvp points into an array so we can sort the array
+    $mvp_points = array();
+    foreach(getPlayers() as $player) {
+        $mvp_points[] = array("full_name"=>$player->getTitle(), "points"=>$player->getMVPPoints($season), "profile_image"=>$player->getProfileImage(), "sponsor_image"=>$player->getBioImage(), "sponsor"=>"");
+    }
+    $points = array_column($mvp_points, 'points');
+    $full_name = array_column($mvp_points, 'full_name');
+    array_multisort($points, SORT_DESC, $full_name, SORT_ASC, $mvp_points);
+    foreach($mvp_points as $player)
+    {
+        if($i == 1) {
+            $position = '1st';
+        } elseif($i == 2) {
+            $position = '2nd';
+        } else {
+            $position = '3rd';
+        }
+        $html .= '
+        <div class="col-12 col-sm-6 col-md-4 col-xl-4 player-panel-wrapper">
+            <div class="panel-title">' . $player['full_name'] . '</div>
+            <div class="image-wrapper">
+                <img src="' . $player['profile_image'] . '" alt="' . $player['full_name'] . '" class="responsive-img" />
+                <div class="sponsor-wrapper"></div>
+            </div>
+            <div class="name">' . $player['points'] . ' points</div>
+            <div class="stat"><span>' . $position . '</span></div>
+        </div>';
+        if($i == 3) break;
+        $i++;
+    }
     echo $html;
     exit;
 }
@@ -1090,4 +1148,25 @@ if(isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == "get_prem_records") {
     }
     echo $html;
     exit;
+}
+function hide_meta_box_attributes( $hidden, $screen) {
+
+    $hidden[] = 'wpassetcleanup_asset_list';
+    return $hidden;
+
+}
+add_filter('hidden_meta_boxes', 'hide_meta_box_attributes', 10, 2);
+add_filter( 'get_user_option_meta-box-order_page', 'metabox_order' );
+function metabox_order( $order ) {
+    return array(
+        'normal' => join(
+            ",",
+            array(       // vvv  Arrange here as you desire
+                'wpb_visual_composer',
+                'wpcf-group-custom-page-fields',
+                'wpseo_meta',
+                'pa-single-admin-analytics',
+            )
+        ),
+    );
 }

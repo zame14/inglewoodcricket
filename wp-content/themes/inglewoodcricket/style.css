@@ -22,8 +22,11 @@ body {
 a {
     color: #5AA1E3;
 }
-a:hover {
+a:hover, a:focus, a:visited {
     text-decoration: none;
+}
+p {
+    margin-bottom: 10px;
 }
 .home h1 {
     color: #ffffff;
@@ -230,7 +233,6 @@ strong {
 }
 .sponsors-section {
     padding-top: 80px;
-    padding-bottom: 80px;
     background-color: #f8f8ff;
 }
 .home .wpb_content_element {
@@ -264,6 +266,11 @@ strong {
     font-weight: 700;
     font-size: 18px;
     margin-bottom: 0;
+}
+.panel-title span {
+    display: block;
+    font-size: 14px;
+    font-weight: 400;
 }
 .player-panel-wrapper {
     position: relative;
@@ -326,12 +333,28 @@ strong {
 .player {
     margin-bottom: 40px;
 }
+.player .sponsor-wrapper {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    background-color: rgba(255,255,255,0.7);
+}
+.player .image-wrapper {
+    position: relative;
+}
+.player .sponsor-wrapper img {
+    max-width: 100%;
+    height: auto;
+    max-height: 80px;
+}
 .responsive-img {
     max-width: 100%;
 }
 .player-inner-wrapper {
     text-align: center;
-    cursor: pointer;
 }
 .players-wrapper {
     position: relative;
@@ -497,7 +520,7 @@ strong {
     padding-right: 10px;
 }
 .vc_toggle.fixtures.prems .vc_toggle_title {
-     background-color: #090f25;
+    background-color: #090f25;
 }
 .vc_toggle.fixtures.seniors .vc_toggle_title {
     background-color: #682b32;
@@ -609,7 +632,8 @@ strong {
     font-size: 14px;
 }
 .submit-wrapper {
-    text-align: center;
+    text-align: left;
+    margin-top: 20px;
 }
 .btn {
     padding: 5px 10px;
@@ -819,11 +843,16 @@ strong {
 #gallery-page-wrapper .title {
     margin-bottom: 30px;
 }
-.sponsors .slick-slide img {
+.grants-wrapper .sponsors .slick-slide img {
     max-width: 50%;
     height: auto;
     display: inline-block;
     vertical-align: middle;
+}
+.silver-sponsor-wrapper {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #eeeeee;
 }
 .registration-form-wrapper {
     width: 100%;
@@ -872,17 +901,12 @@ strong {
     color: #ffffff;
 }
 .registrations-cta-wrapper .content-wrapper {
-    display: inline-block;
-    width: 50%;
+    display: block;
     position: relative;
     text-align: center;
 }
 .registrations-cta-wrapper .content-wrapper .inner-wrapper {
-    position: absolute;
-    width: 100%;
-    top: 50%;
-    transform: translateY(-50%);
-    -webkit-transform: translateY(-50%);
+    padding: 30px 0 20px;
 }
 .registrations-cta-wrapper .content-wrapper .inner-wrapper .heading {
     font-size: 18px;
@@ -967,6 +991,133 @@ input[type="color"]:focus,
 .sitemap:hover {
     text-decoration: underline;
 }
+.player-sponsor-wrapper {
+    text-align: center;
+}
+.player-sponsor-wrapper img {
+    max-width: 100%;
+}
+.mvp-leaderboard {
+    text-align: center;
+}
+.player-panel-wrapper .sponsor-wrapper {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    background-color: rgba(255,255,255,0.7);
+    display: none;
+}
+.player-panel-wrapper .sponsor-wrapper img {
+    max-width: 100%;
+    height: auto;
+    max-height: 80px;
+}
+.player-panel-wrapper .image-wrapper {
+    position: relative;
+}
+.players-wrapper .player .player-inner-wrapper {
+    background-color:#f9f9f9;
+    height: 100%;
+}
+.players-wrapper .player-inner-wrapper .bio-wrapper {
+    padding: 20px 10px;
+    height: 100%;
+}
+.players-wrapper .player-inner-wrapper .bio-wrapper h2 {
+    margin-bottom: 5px;
+}
+.players-wrapper .player-inner-wrapper .bio-wrapper .description {
+    color: #000000;
+}
+.players-wrapper .sponsor-me {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+    bottom: 0;
+    background-color: #000000;
+    color: #ffffff;
+    text-transform: uppercase;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-size: 20px;
+    font-weight: 700;
+}
+.my-sponsor {
+    color: #682b32;
+    font-size: 14px;
+    text-transform: uppercase;
+    line-height: 14px;
+    margin-top: 15px;
+}
+.my-sponsor label {
+    margin-right: 5px;
+    color: #090f25;
+}
+.product-wrapper .wpb_single_image {
+    margin-bottom: 0;
+}
+.product-wrapper .content-wrapper {
+    padding: 20px;
+}
+.product-wrapper > .vc_column-inner > .wpb_wrapper {
+    background-color: #f8f8ff;
+    height: 100%;
+}
+.order-form-wrapper {
+    margin-top: 80px;
+}
+.contact-form-wrapper .col-xl-12, .order-form-wrapper .col-12 {
+    margin-bottom: 10px;
+}
+.wpcf7-submit {
+    color: #ffffff;
+    background-color: #682b32;
+    border: 0;
+    padding: 10px 15px;
+}
+.order-form-wrapper {
+    padding-bottom: 40px;
+}
+.merch-testimonial-wrapper {
+    background-color: #212121;
+    padding-top: 60px;
+    padding-bottom: 80px;
+}
+.merch-testimonial-wrapper h2 {
+    font-family: 'Princess Sofia', cursive;
+    text-transform: none;
+    color: #ffffff;
+    font-size: 60px;
+    line-height: 60px;
+}
+.merch-testimonial-wrapper h3 {
+    color: #ffffff;
+    font-size: 18px;
+}
+.page-id-3835 .wrapper {
+    margin-bottom: 0;
+}
+.merch-cta h2 {
+    color: #090f25;
+    font-size: 50px;
+    line-height: 50px;
+}
+.merch-cta h3 {
+    font-size: 25px;
+    line-height: 30px;
+    margin-bottom: 40px;
+}
+.merch-cta .btn-primary {
+    background-color: #682b32;
+    border-color: #682b32;
+}
+.merch-cta .vc_column-inner {
+    padding-top: 0 !important;
+}
 @media screen and (max-width: 1199px) {
     .container {
         width: 100%;
@@ -1007,6 +1158,9 @@ input[type="color"]:focus,
     }
     #header {
         margin-bottom: 50px;
+    }
+    .merch-cta h3 {
+        font-size: 20px;
     }
 }
 @media screen and (max-width: 991px) {
@@ -1075,6 +1229,25 @@ input[type="color"]:focus,
     }
     .slick-prev {
         left: -10px;
+    }
+    .product-wrapper h2 {
+        font-size: 17px;
+    }
+    .merch-testimonial-wrapper h2 {
+        font-size: 40px;
+        line-height: 40px;
+    }
+    .merch-testimonial-wrapper {
+        padding-top: 40px;
+        padding-bottom: 60px;
+    }
+    .merch-testimonial-wrapper h3 {
+        font-size: 16px;
+    }
+    .merch-cta h3 {
+        font-size: 18px;
+        line-height: 26px;
+        margin-bottom: 20px;
     }
 }
 @media (min-width: 768px) and (max-width: 991px) {
@@ -1152,6 +1325,27 @@ input[type="color"]:focus,
     }
     .cart-icons-list li.ph span {
         display: none;
+    }
+    .product-wrapper.vc_col-xs-12 {
+        width: 50%;
+    }
+    .product-wrapper {
+        margin-bottom: 30px;
+    }
+    .merch-cta .vc_col-xs-12 {
+        width: 50%;
+    }
+    .home .merch-cta h2 {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+    .merch-cta h3 {
+        font-size: 16px;
+        line-height: 24px;
+    }
+    .merch-cta .vc_column_container > .vc_column-inner {
+        padding-left: 0;
+        padding-right: 0;
     }
 }
 @media (min-width: 576px) and (max-width: 767px) {
@@ -1341,6 +1535,25 @@ input[type="color"]:focus,
         color: #ffffff;
         font-size: 16px;
         line-height: 22px;
+    }
+    .product-wrapper.vc_col-xs-12 {
+        width: 100%;
+    }
+    .product-wrapper .wpb_content_element {
+        margin-bottom: 0 !important;
+    }
+    .merch-testimonial-wrapper h2 {
+        font-size: 30px;
+    }
+    .merch-testimonial-wrapper h3 {
+        font-size: 14px;
+    }
+    .merch-cta .vc_col-xs-12 {
+        width: 100%;
+    }
+    .merch-cta .content-wrapper {
+        padding-top: 40px;
+        padding-bottom: 40px;
     }
 }
 @media screen and (max-width: 399px) {
